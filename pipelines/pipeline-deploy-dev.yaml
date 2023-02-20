@@ -31,6 +31,9 @@ spec:
   workspaces:
   - name: workspace
   - name: maven-settings
+  
+   # TASK 01 CLONE SOURCE CODE
+   
   tasks:
   - name: source-clone
     taskRef:
@@ -50,6 +53,9 @@ spec:
       value: spring-petclinic
     - name: deleteExisting
       value: "true"
+      
+      #TASK 02 CODE TEST
+      
   - name: unit-tests
     taskRef:
       name: maven
@@ -63,6 +69,9 @@ spec:
     params:
     - name: GOALS
       value: ["package", "-f", "spring-petclinic"]
+      
+      # TASK 03 CODE ANALYSIS
+      
   - name: code-analysis
     taskRef:
       name: maven
@@ -83,6 +92,9 @@ spec:
       - -Dsonar.host.url=http://sonarqube:9000
       - -Dsonar.userHome=/tmp/sonar
       - -DskipTests=true
+      
+      # TASK 04 DEPENDENCY REPORT
+      
   - name: dependency-report
     taskRef:
       name: dependency-report
@@ -96,6 +108,9 @@ spec:
     params:
     - name: SOURCE_DIR
       value: spring-petclinic
+      
+      # TASK 05 RELEASE-APP
+      
   - name: release-app
     taskRef:
       name: maven
@@ -117,6 +132,9 @@ spec:
       - -DskipTests=true
       - -DaltDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-releases/
       - -DaltSnapshotDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-snapshots/
+      
+      # TASK 06 BUILD IMAGE
+      
   - name: build-image
     taskRef:
       name: s2i-java-11
@@ -136,6 +154,9 @@ spec:
     workspaces:
     - name: source
       workspace: workspace
+      
+      # TASK 07 CONFIG-CLONE
+      
   - name: config-clone
     taskRef:
       name: git-clone
@@ -152,6 +173,9 @@ spec:
       value: spring-petclinic-config
     - name: deleteExisting
       value: "true"
+      
+      # TASK 08 TEST CLONE
+      
   - name: tests-clone
     taskRef:
       name: git-clone
@@ -168,6 +192,9 @@ spec:
       value: spring-petclinic-gatling
     - name: deleteExisting
       value: "true"
+      
+      # TASK 09 DEPLOY
+      
   - name: deploy-dev
     taskRef:
       name: deploy-app
